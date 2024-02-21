@@ -2,6 +2,7 @@ package procedeus.credit.project.service.impl
 
 import org.springframework.stereotype.Service
 import procedeus.credit.project.entity.Credit
+import procedeus.credit.project.exception.BusinessException
 import procedeus.credit.project.repository.CreditRepository
 import procedeus.credit.project.service.ICreditService
 import java.util.*
@@ -24,9 +25,9 @@ class CreditService(
     override fun findByCreditCode(customerId: Long, creditCode: UUID): Credit {
         val credit: Credit = this.creditRepository
             .findByCreditCode(creditCode)
-            ?: throw RuntimeException("Credit Code: '$creditCode' não encontrado")
+            ?: throw BusinessException("Credit Code: $creditCode não encontrado")
         if (credit.customer?.id == customerId) return credit
-        else throw RuntimeException("Contate Adm")
+        else throw IllegalArgumentException("Contate Adm")
     }
 
 }
